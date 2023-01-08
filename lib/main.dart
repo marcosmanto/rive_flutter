@@ -12,49 +12,71 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Home(),
+      home: Splash(),
     );
   }
 }
 
-class Home extends StatefulWidget {
-  const Home({super.key});
+class Splash extends StatefulWidget {
+  const Splash({super.key});
 
   @override
-  State<Home> createState() => _HomeState();
+  State<Splash> createState() => _SplashState();
 }
 
-class _HomeState extends State<Home> {
-  String _anim = 'spin';
-
+class _SplashState extends State<Splash> {
   @override
   void initState() {
     super.initState();
+    Future.delayed(Duration(seconds: 3)).then(
+      (_) => Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => Home(),
+        ),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: Center(
-      child: Container(
+      child: SizedBox(
         width: 150,
         height: 150,
-        child: GestureDetector(
-          onTap: () {
-            setState(() {
-              if (_anim == 'spin') {
-                _anim = 'spin 2';
-              } else {
-                _anim = 'spin';
-              }
-            });
-          },
-          child: RiveAnimation.asset(
-            'assets/gears.riv',
-            animations: [_anim],
-          ),
+        child: RiveAnimation.asset(
+          'assets/gears.riv',
+          animations: ['spin'],
         ),
       ),
     ));
+  }
+}
+
+class Home extends StatelessWidget {
+  const Home({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(
+            'Hello world',
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 30),
+          ),
+          SizedBox(
+            width: 100,
+            height: 100,
+            child: RiveAnimation.asset(
+              'assets/heart.riv',
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
